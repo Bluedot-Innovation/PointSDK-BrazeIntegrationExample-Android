@@ -1,4 +1,4 @@
-package bluedotbrazeintegrationapp.bluedot.com.au.bluedotbrazeintegrationapp
+package bluedot.com.au.bluedotbrazeintegrationapp
 
 import org.junit.Test
 
