@@ -6,7 +6,7 @@
               android:layout_height="wrap_content"
               android:orientation="vertical"
               android:layout_gravity="center_vertical"
-              tools:context=".MainActivity">
+              tools:context="bluedot.com.au.bluedotbrazeintegrationapp.MainActivity">
 
     <Button
             android:id="@+id/bStopSDK"

@@ -1,4 +1,4 @@
-package bluedotbrazeintegrationapp.bluedot.com.au.bluedotbrazeintegrationapp
+package bluedot.com.au.bluedotbrazeintegrationapp
 
 import android.Manifest
 import android.app.Application
@@ -26,6 +26,7 @@ import com.appboy.AppboyLifecycleCallbackListener
 import android.app.Notification.PRIORITY_MAX
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import bluedot.com.au.bluedotbrazeintegrationapp.R
 import com.appboy.Appboy
 import com.appboy.models.outgoing.AppboyProperties
 
