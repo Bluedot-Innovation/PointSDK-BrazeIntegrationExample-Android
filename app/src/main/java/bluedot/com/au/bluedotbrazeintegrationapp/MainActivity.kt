@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import au.com.bluedot.point.net.engine.ServiceManager
-import bluedot.com.au.bluedotbrazeintegrationapp.R
 
 class MainActivity : AppCompatActivity() {
 
