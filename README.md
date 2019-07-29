@@ -1,48 +1,120 @@
-package bluedot.com.au.bluedotbrazeintegrationapp
+#Braze Custom Event Example
+This is a sample app which integrates Bluedot SDK and Braze SDK using Kotlin.
 
-import android.Manifest
-import android.app.Application
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
-import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Color
-import android.os.Build
+##Getting Started
 
-import au.com.bluedot.application.model.Proximity
-import au.com.bluedot.point.ApplicationNotificationListener
-import au.com.bluedot.point.ServiceStatusListener
-import au.com.bluedot.point.net.engine.BDError
-import au.com.bluedot.point.net.engine.BeaconInfo
-import au.com.bluedot.point.net.engine.FenceInfo
-import au.com.bluedot.point.net.engine.LocationInfo
-import au.com.bluedot.point.net.engine.ServiceManager
-import au.com.bluedot.point.net.engine.ZoneInfo
+###To add Bluedot SDK
+Step 1: In the root gradle add `maven { url 'https://jitpack.io' } maven { url "https://appboy.github.io/appboy-android-sdk/sdk" }` under the repositories section.
 
-import com.appboy.AppboyLifecycleCallbackListener
+Step 2: In the app gradle add
+```
+implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+implementation 'com.github.Bluedot-Innovation:PointSDK-Android:1.13.2'
+implementation 'com.google.firebase:firebase-messaging:19.0.1'
+implementation 'com.google.firebase:firebase-core:17.0.0'
+```
+under the dependencies.
 
-import android.app.Notification.PRIORITY_MAX
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import com.appboy.Appboy
-import com.appboy.models.outgoing.AppboyProperties
+Step 3: In the same file add `apply plugin: 'com.google.gms.google-services'` at the end of the file.
 
-/*
- * @author Bluedot Innovation
- * Copyright (c) 2019 Bluedot Innovation. All rights reserved.
- * MainApplication demonstrates the implementation Bluedot Point SDK and related callbacks.
- */
-class MainApplication : Application(), ServiceStatusListener, ApplicationNotificationListener {
+Step 4: In the AndroidManifest.xml add `<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>`
+In the same file add `<activity android:name="bluedot.com.au.bluedotbrazeintegrationapp.RequestPermissionActivity"/>`
 
+###To add Braze SDK
+Step 1: In the root gradle add `maven { url "https://appboy.github.io/appboy-android-sdk/sdk" }`
 
-    internal lateinit var mServiceManager: ServiceManager
+Step 2: In the app gradle add
+```
+implementation "com.appboy:android-sdk-ui:+"
+```
 
-    // BrazeApp
-    private val apiKey = "cd61bd80-ad04-11e9-b61e-02e5d6787daa" //API key for the App 
-    // set this to true if you want to start the SDK with service sticky and auto-start mode on boot complete.
-    // Please refer to Bluedot Developer documentation for further information.
+Step 3: Create appboy.xml and add the following code:
+```
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="com_appboy_api_key">REPLACE_WITH_YOUR_API_KEY</string>
+    <string translatable="false" name="com_appboy_custom_endpoint">sdk.iad-03.braze.com</string>
+    <bool translatable="false" name="com_appboy_firebase_cloud_messaging_registration_enabled">true</bool>
+    <string translatable="false" name="com_appboy_firebase_cloud_messaging_sender_id">your_fcm_sender_id_here</string>
+    <drawable name="com_appboy_push_small_notification_icon">@drawable/ic_stat_notify_droidboy</drawable>
+    <drawable name="com_appboy_push_large_notification_icon">@drawable/ic_stat_notify_droidboy_large</drawable>
+    <integer name="com_appboy_default_notification_accent_color">0xFFf33e3e</integer>
+    <bool name="com_appboy_handle_push_deep_links_automatically">true</bool>
+</resources>
+```
+
+Step 4: In the AndroidManifest.xml add the following:
+```
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+<service android:name="com.appboy.AppboyFirebaseMessagingService">
+    <intent-filter>
+        <action android:name="com.google.firebase.MESSAGING_EVENT" />
+    </intent-filter>
+</service>
+```
+
+### MainActivity.kt
+Add the below code in the MainActivity.kt
+```
+lateinit var bStopSDK: Button
+
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+    setContentView(R.layout.activity_main)
+    initUI()
+}
+
+private fun initUI() {
+    bStopSDK = findViewById(R.id.bStopSDK)
+    bStopSDK.setOnClickListener {
+        stopSDK()
+    }
+}
+
+private fun stopSDK() {
+    ServiceManager.getInstance(this).stopPointService()
+    finish()
+}
+```
+
+### RequestPermissionActivity.kt
+Add the below code in the RequestPermissionActivity.kt
+```
+internal val PERMISSION_REQUEST_CODE = 1
+override fun onCreate(savedInstanceState: Bundle?) {
+    super.onCreate(savedInstanceState)
+
+    //Request permission required for location
+    ActivityCompat.requestPermissions(
+        this,
+        arrayOf(Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION),
+        PERMISSION_REQUEST_CODE
+    )
+}
+
+override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
+    super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+    when (requestCode) {
+        PERMISSION_REQUEST_CODE -> if (grantResults.size > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            (application as MainApplication).initPointSDK()
+
+        } else {
+            //Permissions denied
+
+        }
+    }
+    finish()
+}
+```
+
+### MainApplication.kt
+Create an application in Bluedot and then add the below code in MainApplication.kt
+```
+internal lateinit var mServiceManager: ServiceManager
+
+    private val apiKey = Bluedot API key for the App 
     internal var restartMode = true
 
 
@@ -66,8 +138,6 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
             mServiceManager = ServiceManager.getInstance(this)
 
             if (!mServiceManager.isBlueDotPointServiceRunning()) {
-                // Setting Notification for foreground service, required for Android Oreo and above.
-                // Setting targetAllAPIs to TRUE will display foreground notification for Android versions lower than Oreo
                 mServiceManager.setForegroundServiceNotification(createNotification(), false)
                 mServiceManager.sendAuthenticationRequest(apiKey, this, restartMode)
             }
@@ -277,4 +347,4 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
     companion object {
         private val TAG = "BDApp"
     }
-}
+```
