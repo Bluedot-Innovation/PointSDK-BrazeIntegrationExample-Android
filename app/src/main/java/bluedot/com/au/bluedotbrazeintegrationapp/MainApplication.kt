@@ -44,6 +44,8 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
     // set this to true if you want to start the SDK with service sticky and auto-start mode on boot complete.
     // Please refer to Bluedot Developer documentation for further information.
     internal var restartMode = true
+    private val customEventEntry = "bluedot_entry"
+    private val customEventExit = "bluedot_exit"
 
 
     override fun onCreate() {
@@ -157,7 +159,12 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
         eventProperties.addProperty("longitude", location.longitude)
         eventProperties.addProperty("fence_id", fenceInfo.id)
         eventProperties.addProperty("fence_name", fenceInfo.name)
-        Appboy.getInstance(this).logCustomEvent("bluedot_entry", eventProperties)
+
+        for (data in customData) {
+            eventProperties.addProperty(data.key, data.value)
+        }
+
+        Appboy.getInstance(this).logCustomEvent(customEventEntry, eventProperties)
     }
 
     /**
@@ -180,7 +187,12 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
         eventProperties.addProperty("dwellTime", dwellTime)
         eventProperties.addProperty("fence_id", fenceInfo.id)
         eventProperties.addProperty("fence_name", fenceInfo.name)
-        Appboy.getInstance(this).logCustomEvent("bluedot_exit", eventProperties)
+
+        for (data in customData) {
+            eventProperties.addProperty(data.key, data.value)
+        }
+
+        Appboy.getInstance(this).logCustomEvent(customEventExit, eventProperties)
     }
 
     /**
@@ -207,7 +219,12 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
         eventProperties.addProperty("beacon_id", beaconInfo.id)
         eventProperties.addProperty("latitude", location.latitude)
         eventProperties.addProperty("longitude", location.longitude)
-        Appboy.getInstance(this).logCustomEvent("bluedot_entry", eventProperties)
+
+        for (data in customData) {
+            eventProperties.addProperty(data.key, data.value)
+        }
+
+        Appboy.getInstance(this).logCustomEvent(customEventEntry, eventProperties)
     }
 
     /**
@@ -229,7 +246,12 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
         eventProperties.addProperty("zone_name", zoneInfo.zoneName)
         eventProperties.addProperty("beacon_id", beaconInfo.id)
         eventProperties.addProperty("dwellTime", dwellTime)
-        Appboy.getInstance(this).logCustomEvent("bluedot_exit", eventProperties)
+
+        for (data in customData) {
+            eventProperties.addProperty(data.key, data.value)
+        }
+
+        Appboy.getInstance(this).logCustomEvent(customEventExit, eventProperties)
     }
 
     /**
