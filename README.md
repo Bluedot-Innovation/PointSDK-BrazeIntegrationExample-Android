@@ -1,9 +1,9 @@
-#Braze Custom Event Example
+# Braze Custom Event Example
 This is a sample app which integrates Bluedot SDK and Braze SDK using Kotlin.
 
-##Getting Started
+## Getting Started
 
-###To add Bluedot SDK
+### To add Bluedot SDK
 Step 1: In the root gradle add `maven { url 'https://jitpack.io' } maven { url "https://appboy.github.io/appboy-android-sdk/sdk" }` under the repositories section.
 
 Step 2: In the app gradle add
@@ -20,7 +20,7 @@ Step 3: In the same file add `apply plugin: 'com.google.gms.google-services'` at
 Step 4: In the AndroidManifest.xml add `<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>`
 In the same file add `<activity android:name="bluedot.com.au.bluedotbrazeintegrationapp.RequestPermissionActivity"/>`
 
-###To add Braze SDK
+### To add Braze SDK
 Step 1: In the root gradle add `maven { url "https://appboy.github.io/appboy-android-sdk/sdk" }`
 
 Step 2: In the app gradle add
@@ -116,7 +116,8 @@ internal lateinit var mServiceManager: ServiceManager
 
     private val apiKey = Bluedot API key for the App 
     internal var restartMode = true
-
+    private val customEventEntry = "bluedot_entry"
+    private val customEventExit = "bluedot_exit"
 
     override fun onCreate() {
         super.onCreate()
@@ -227,7 +228,12 @@ internal lateinit var mServiceManager: ServiceManager
         eventProperties.addProperty("longitude", location.longitude)
         eventProperties.addProperty("fence_id", fenceInfo.id)
         eventProperties.addProperty("fence_name", fenceInfo.name)
-        Appboy.getInstance(this).logCustomEvent("bluedot_entry", eventProperties)
+
+        for (data in customData) {
+            eventProperties.addProperty(data.key, data.value)
+        }
+
+        Appboy.getInstance(this).logCustomEvent(customEventEntry, eventProperties)
     }
 
     /**
@@ -250,7 +256,12 @@ internal lateinit var mServiceManager: ServiceManager
         eventProperties.addProperty("dwellTime", dwellTime)
         eventProperties.addProperty("fence_id", fenceInfo.id)
         eventProperties.addProperty("fence_name", fenceInfo.name)
-        Appboy.getInstance(this).logCustomEvent("bluedot_exit", eventProperties)
+
+        for (data in customData) {
+            eventProperties.addProperty(data.key, data.value)
+        }
+
+        Appboy.getInstance(this).logCustomEvent(customEventExit, eventProperties)
     }
 
     /**
@@ -277,7 +288,12 @@ internal lateinit var mServiceManager: ServiceManager
         eventProperties.addProperty("beacon_id", beaconInfo.id)
         eventProperties.addProperty("latitude", location.latitude)
         eventProperties.addProperty("longitude", location.longitude)
-        Appboy.getInstance(this).logCustomEvent("bluedot_entry", eventProperties)
+
+        for (data in customData) {
+            eventProperties.addProperty(data.key, data.value)
+        }
+
+        Appboy.getInstance(this).logCustomEvent(customEventEntry, eventProperties)
     }
 
     /**
@@ -299,7 +315,12 @@ internal lateinit var mServiceManager: ServiceManager
         eventProperties.addProperty("zone_name", zoneInfo.zoneName)
         eventProperties.addProperty("beacon_id", beaconInfo.id)
         eventProperties.addProperty("dwellTime", dwellTime)
-        Appboy.getInstance(this).logCustomEvent("bluedot_exit", eventProperties)
+
+        for (data in customData) {
+            eventProperties.addProperty(data.key, data.value)
+        }
+
+        Appboy.getInstance(this).logCustomEvent(customEventExit, eventProperties)
     }
 
     /**
