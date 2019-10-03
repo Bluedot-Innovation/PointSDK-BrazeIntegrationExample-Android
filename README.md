@@ -7,9 +7,10 @@ This is a sample app which integrates Bluedot SDK and Braze SDK using Kotlin.
 Step 1: In the root gradle add `maven { url 'https://jitpack.io' } maven { url "https://appboy.github.io/appboy-android-sdk/sdk" }` under the repositories section.
 
 Step 2: In the app gradle add
-```
+
+```groovy
 implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-implementation 'com.github.Bluedot-Innovation:PointSDK-Android:1.13.2'
+implementation 'com.github.Bluedot-Innovation:PointSDK-Android:14.0.0'
 implementation 'com.google.firebase:firebase-messaging:19.0.1'
 implementation 'com.google.firebase:firebase-core:17.0.0'
 ```
@@ -24,12 +25,14 @@ In the same file add `<activity android:name="bluedot.com.au.bluedotbrazeintegra
 Step 1: In the root gradle add `maven { url "https://appboy.github.io/appboy-android-sdk/sdk" }`
 
 Step 2: In the app gradle add
-```
+
+```groovy
 implementation "com.appboy:android-sdk-ui:+"
 ```
 
 Step 3: Create appboy.xml and add the following code:
-```
+
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="com_appboy_api_key">REPLACE_WITH_YOUR_API_KEY</string>
@@ -44,7 +47,8 @@ Step 3: Create appboy.xml and add the following code:
 ```
 
 Step 4: In the AndroidManifest.xml add the following:
-```
+
+```xml
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -57,7 +61,8 @@ Step 4: In the AndroidManifest.xml add the following:
 
 ### MainActivity.kt
 Add the below code in the MainActivity.kt
-```
+
+```kotlin
 lateinit var bStopSDK: Button
 
 override fun onCreate(savedInstanceState: Bundle?) {
@@ -81,7 +86,8 @@ private fun stopSDK() {
 
 ### RequestPermissionActivity.kt
 Add the below code in the RequestPermissionActivity.kt
-```
+
+```kotlin
 internal val PERMISSION_REQUEST_CODE = 1
 override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -111,7 +117,8 @@ override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<Str
 
 ### MainApplication.kt
 Create an application in Bluedot and then add the below code in MainApplication.kt
-```
+
+```kotlin
 internal lateinit var mServiceManager: ServiceManager
 
     private val apiKey = Bluedot API key for the App 
