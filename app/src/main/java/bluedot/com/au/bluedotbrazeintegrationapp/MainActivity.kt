@@ -6,24 +6,13 @@ import androidx.appcompat.app.AppCompatActivity
 import au.com.bluedot.point.net.engine.ServiceManager
 
 class MainActivity : AppCompatActivity() {
-
-    lateinit var bStopSDK: Button
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        initUI()
-    }
 
-    private fun initUI() {
-        bStopSDK = findViewById(R.id.bStopSDK)
-        bStopSDK.setOnClickListener {
-            stopSDK()
+        findViewById<Button>(R.id.bStopSDK).setOnClickListener {
+            ServiceManager.getInstance(this).stopPointService()
+            finish()
         }
-    }
-
-    private fun stopSDK() {
-        ServiceManager.getInstance(this).stopPointService()
-        finish()
     }
 }

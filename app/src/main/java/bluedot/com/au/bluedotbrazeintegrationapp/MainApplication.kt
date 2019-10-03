@@ -10,7 +10,8 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Build
-
+import androidx.core.app.ActivityCompat
+import androidx.core.app.NotificationCompat
 import au.com.bluedot.application.model.Proximity
 import au.com.bluedot.point.ApplicationNotificationListener
 import au.com.bluedot.point.ServiceStatusListener
@@ -20,13 +21,8 @@ import au.com.bluedot.point.net.engine.FenceInfo
 import au.com.bluedot.point.net.engine.LocationInfo
 import au.com.bluedot.point.net.engine.ServiceManager
 import au.com.bluedot.point.net.engine.ZoneInfo
-
-import com.appboy.AppboyLifecycleCallbackListener
-
-import android.app.Notification.PRIORITY_MAX
-import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
 import com.appboy.Appboy
+import com.appboy.AppboyLifecycleCallbackListener
 import com.appboy.models.outgoing.AppboyProperties
 
 /*
@@ -36,17 +32,15 @@ import com.appboy.models.outgoing.AppboyProperties
  */
 class MainApplication : Application(), ServiceStatusListener, ApplicationNotificationListener {
 
-
-    internal lateinit var mServiceManager: ServiceManager
+    private lateinit var mServiceManager: ServiceManager
 
     // BrazeApp
-    private val apiKey = "cd61bd80-ad04-11e9-b61e-02e5d6787daa" //API key for the App 
+    private val apiKey = "" //API key for the App 
     // set this to true if you want to start the SDK with service sticky and auto-start mode on boot complete.
     // Please refer to Bluedot Developer documentation for further information.
-    internal var restartMode = true
+    private var restartMode = true
     private val customEventEntry = "bluedot_entry"
     private val customEventExit = "bluedot_exit"
-
 
     override fun onCreate() {
         super.onCreate()
@@ -59,15 +53,16 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
 
     fun initPointSDK() {
 
-        val checkPermissionCoarse =
-            ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_COARSE_LOCATION)
         val checkPermissionFine =
-            ActivityCompat.checkSelfPermission(applicationContext, Manifest.permission.ACCESS_FINE_LOCATION)
+            ActivityCompat.checkSelfPermission(
+                applicationContext,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
 
-        if (checkPermissionCoarse == PackageManager.PERMISSION_GRANTED && checkPermissionFine == PackageManager.PERMISSION_GRANTED) {
+        if (checkPermissionFine == PackageManager.PERMISSION_GRANTED) {
             mServiceManager = ServiceManager.getInstance(this)
 
-            if (!mServiceManager.isBlueDotPointServiceRunning()) {
+            if (!mServiceManager.isBlueDotPointServiceRunning) {
                 // Setting Notification for foreground service, required for Android Oreo and above.
                 // Setting targetAllAPIs to TRUE will display foreground notification for Android versions lower than Oreo
                 mServiceManager.setForegroundServiceNotification(createNotification(), false)
@@ -149,7 +144,7 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
         fenceInfo: FenceInfo,
         zoneInfo: ZoneInfo,
         location: LocationInfo,
-        customData: Map<String, String>,
+        customData: Map<String, String>?,
         isCheckOut: Boolean
     ) {
         val eventProperties = AppboyProperties()
@@ -160,7 +155,7 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
         eventProperties.addProperty("fence_id", fenceInfo.id)
         eventProperties.addProperty("fence_name", fenceInfo.name)
 
-        for (data in customData) {
+        customData?.forEach { data ->
             eventProperties.addProperty(data.key, data.value)
         }
 
@@ -179,7 +174,7 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
         fenceInfo: FenceInfo,
         zoneInfo: ZoneInfo,
         dwellTime: Int,
-        customData: Map<String, String>
+        customData: Map<String, String>?
     ) {
         val eventProperties = AppboyProperties()
         eventProperties.addProperty("zone_id", zoneInfo.zoneId)
@@ -188,7 +183,7 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
         eventProperties.addProperty("fence_id", fenceInfo.id)
         eventProperties.addProperty("fence_name", fenceInfo.name)
 
-        for (data in customData) {
+        customData?.forEach { data ->
             eventProperties.addProperty(data.key, data.value)
         }
 
@@ -210,7 +205,7 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
         zoneInfo: ZoneInfo,
         location: LocationInfo,
         proximity: Proximity,
-        customData: Map<String, String>,
+        customData: Map<String, String>?,
         isCheckOut: Boolean
     ) {
         val eventProperties = AppboyProperties()
@@ -220,7 +215,7 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
         eventProperties.addProperty("latitude", location.latitude)
         eventProperties.addProperty("longitude", location.longitude)
 
-        for (data in customData) {
+        customData?.forEach { data ->
             eventProperties.addProperty(data.key, data.value)
         }
 
@@ -239,7 +234,7 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
         beaconInfo: BeaconInfo,
         zoneInfo: ZoneInfo,
         dwellTime: Int,
-        customData: Map<String, String>
+        customData: Map<String, String>?
     ) {
         val eventProperties = AppboyProperties()
         eventProperties.addProperty("zone_id", zoneInfo.zoneId)
@@ -247,7 +242,7 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
         eventProperties.addProperty("beacon_id", beaconInfo.id)
         eventProperties.addProperty("dwellTime", dwellTime)
 
-        for (data in customData) {
+        customData?.forEach { data ->
             eventProperties.addProperty(data.key, data.value)
         }
 
@@ -260,16 +255,16 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
      */
 
     private fun createNotification(): Notification {
-        val channelId: String
+        val channelId = "Bluedot" + getString(R.string.app_name)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            channelId = "Bluedot" + getString(R.string.app_name)
             val channelName = "Bluedot Service" + getString(R.string.app_name)
             val notificationChannel =
                 NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
             notificationChannel.enableLights(false)
             notificationChannel.lightColor = Color.RED
             notificationChannel.enableVibration(false)
-            val notificationManager = this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager =
+                this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(notificationChannel)
 
             val notification = Notification.Builder(applicationContext, channelId)
@@ -283,20 +278,16 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
             return notification.build()
         } else {
 
-            val notification = NotificationCompat.Builder(applicationContext)
+            val notification = NotificationCompat.Builder(applicationContext, channelId)
                 .setContentTitle(getString(R.string.foreground_notification_title))
                 .setContentText(getString(R.string.foreground_notification_text))
                 .setStyle(NotificationCompat.BigTextStyle().bigText(getString(R.string.foreground_notification_text)))
                 .setOngoing(true)
                 .setCategory(Notification.CATEGORY_SERVICE)
-                .setPriority(PRIORITY_MAX)
+                .setPriority(NotificationManager.IMPORTANCE_HIGH)
                 .setSmallIcon(R.mipmap.ic_launcher)
 
             return notification.build()
         }
-    }
-
-    companion object {
-        private val TAG = "BDApp"
     }
 }
