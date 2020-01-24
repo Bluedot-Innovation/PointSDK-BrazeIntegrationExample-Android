@@ -35,7 +35,7 @@ class MainApplication : Application(), ServiceStatusListener, ApplicationNotific
     private lateinit var mServiceManager: ServiceManager
 
     // BrazeApp
-    private val apiKey = "" //API key for the App 
+    private val apiKey = "" //API key for the App
     // set this to true if you want to start the SDK with service sticky and auto-start mode on boot complete.
     // Please refer to Bluedot Developer documentation for further information.
     private var restartMode = true

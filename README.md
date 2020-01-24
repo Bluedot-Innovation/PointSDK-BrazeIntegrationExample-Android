@@ -12,7 +12,6 @@ Step 2: In the app gradle add
 implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 implementation 'com.github.Bluedot-Innovation:PointSDK-Android:14.0.0'
 implementation 'com.google.firebase:firebase-messaging:19.0.1'
-implementation 'com.google.firebase:firebase-core:17.0.0'
 ```
 under the dependencies.
 
@@ -51,6 +50,7 @@ Step 4: In the AndroidManifest.xml add the following:
 ```xml
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
 <service android:name="com.appboy.AppboyFirebaseMessagingService">
     <intent-filter>
