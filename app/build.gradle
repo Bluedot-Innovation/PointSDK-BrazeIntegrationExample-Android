@@ -36,6 +36,7 @@ android {
     }
 }
 
+// TODO remove this when we migrate to AndroidX
 android {
     lintOptions {
         abortOnError false
