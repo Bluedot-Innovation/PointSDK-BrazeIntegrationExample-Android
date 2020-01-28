@@ -36,6 +36,13 @@ android {
     }
 }
 
+// TODO remove this when we migrate to AndroidX
+android {
+    lintOptions {
+        abortOnError false
+    }
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
@@ -47,7 +54,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation "com.appboy:android-sdk-ui:+"
     implementation 'com.google.firebase:firebase-messaging:19.0.1'
-    implementation 'com.google.firebase:firebase-core:17.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
