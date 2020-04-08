@@ -13,7 +13,14 @@ implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 implementation 'com.github.Bluedot-Innovation:PointSDK-Android:14.0.0'
 implementation 'com.google.firebase:firebase-messaging:19.0.1'
 ```
-under the dependencies.
+under the dependencies and add the below under android
+
+```groovy
+compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+}
+```
 
 Step 3: In the same file add `apply plugin: 'com.google.gms.google-services'` at the end of the file.
 
