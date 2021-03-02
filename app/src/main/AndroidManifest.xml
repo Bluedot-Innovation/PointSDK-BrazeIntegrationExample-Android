@@ -25,6 +25,24 @@
             </intent-filter>
         </activity>
 
+        <receiver
+            android:name=".BluedotErrorReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="io.bluedot.point.SERVICE" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".BluedotGeoTriggerReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="io.bluedot.point.GEOTRIGGER" />
+            </intent-filter>
+        </receiver>
+
         <service android:name="com.appboy.AppboyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
