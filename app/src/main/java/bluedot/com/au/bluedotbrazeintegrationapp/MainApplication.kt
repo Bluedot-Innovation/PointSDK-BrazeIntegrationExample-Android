@@ -34,7 +34,7 @@ class MainApplication : Application(), InitializationResultListener, GeoTriggeri
     override fun onCreate() {
         super.onCreate()
 
-        registerActivityLifecycleCallbacks(AppboyLifecycleCallbackListener())
+        registerActivityLifecycleCallbacks(AppboyLifecycleCallbackListener(false, false))
 
         // initialize Bluedot point sdk
         initPointSDK()
