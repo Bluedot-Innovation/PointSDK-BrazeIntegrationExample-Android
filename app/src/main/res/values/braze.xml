@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="com_appboy_api_key"></string>
+    <string name="com_appboy_api_key">3a0a1188-ee1d-4027-92c5-98c6033ad5f0</string>
     <string translatable="false" name="com_appboy_custom_endpoint">sdk.iad-03.braze.com</string>
     <bool translatable="false" name="com_appboy_firebase_cloud_messaging_registration_enabled">true</bool>
-    <string translatable="false" name="com_appboy_firebase_cloud_messaging_sender_id"></string>
+    <string translatable="false" name="com_appboy_firebase_cloud_messaging_sender_id">your_fcm_sender_id_here</string>
     <drawable name="com_appboy_push_small_notification_icon">@drawable/ic_stat_notify_droidboy</drawable>
     <drawable name="com_appboy_push_large_notification_icon">@drawable/ic_stat_notify_droidboy_large</drawable>
     <integer name="com_appboy_default_notification_accent_color">0xFFf33e3e</integer>
