@@ -27,7 +27,7 @@ class MainApplication : Application(), InitializationResultListener, GeoTriggeri
     private lateinit var mServiceManager: ServiceManager
 
     // BrazeApp
-    private val projectId = "" //project Id for the App
+    private val projectId = "e3eb0689-5a35-4114-8273-85ba12084564" //project Id for the App
     // set this to true if you want to start the SDK with service sticky and auto-start mode on boot complete.
     // Please refer to Bluedot Developer documentation for further information.
 

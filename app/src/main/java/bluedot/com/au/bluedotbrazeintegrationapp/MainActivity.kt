@@ -3,6 +3,7 @@ package bluedot.com.au.bluedotbrazeintegrationapp
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import au.com.bluedot.point.net.engine.GeoTriggeringService
 import au.com.bluedot.point.net.engine.ServiceManager
 
 class MainActivity : AppCompatActivity() {
@@ -11,7 +12,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         findViewById<Button>(R.id.bStopSDK).setOnClickListener {
-            ServiceManager.getInstance(this).stopPointService()
+            val app: MainApplication = this.application as MainApplication
+            GeoTriggeringService.stop(this, app)
             finish()
         }
     }
