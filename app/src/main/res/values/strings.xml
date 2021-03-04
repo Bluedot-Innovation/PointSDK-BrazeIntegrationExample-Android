@@ -2,4 +2,6 @@
     <string name="app_name">BluedotBrazeIntegrationApp</string>
     <string name="foreground_notification_title">Location Based Notifications</string>
     <string name="foreground_notification_text">This app is utilizing the location to trigger alerts in both background and foreground modes when you visit your favourite locations.</string>
+    <string name="stop_sdk">Stop SDK</string>
+    <string name="start_sdk">Start SDK</string>
 </resources>

@@ -2,18 +2,14 @@ package bluedot.com.au.bluedotbrazeintegrationapp
 
 import android.Manifest
 import android.app.Application
-import android.app.Notification
-import android.app.NotificationChannel
-import android.app.NotificationManager
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
-import android.os.Build
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
-import androidx.core.app.NotificationCompat
-import au.com.bluedot.point.net.engine.*
+import au.com.bluedot.point.net.engine.BDError
+import au.com.bluedot.point.net.engine.GeoTriggeringStatusListener
+import au.com.bluedot.point.net.engine.InitializationResultListener
+import au.com.bluedot.point.net.engine.ServiceManager
 import com.appboy.Appboy
 import com.appboy.AppboyLifecycleCallbackListener
 
@@ -66,54 +62,6 @@ class MainApplication : Application(), InitializationResultListener, GeoTriggeri
         startActivity(intent)
     }
 
-    /**
-     * Creates notification channel and notification, required for foreground service notification.
-     * @return notification
-     */
-
-    private fun createNotification(): Notification {
-        val channelId = "Bluedot" + getString(R.string.app_name)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channelName = "Bluedot Service" + getString(R.string.app_name)
-            val notificationChannel =
-                NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_DEFAULT)
-            notificationChannel.enableLights(false)
-            notificationChannel.lightColor = Color.RED
-            notificationChannel.enableVibration(false)
-            val notificationManager =
-                this.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(notificationChannel)
-
-            val notification = Notification.Builder(applicationContext, channelId)
-                .setContentTitle(getString(R.string.foreground_notification_title))
-                .setContentText(getString(R.string.foreground_notification_text))
-                .setStyle(
-                    Notification.BigTextStyle()
-                        .bigText(getString(R.string.foreground_notification_text))
-                )
-                .setOngoing(true)
-                .setCategory(Notification.CATEGORY_SERVICE)
-                .setSmallIcon(R.mipmap.ic_launcher)
-
-            return notification.build()
-        } else {
-
-            val notification = NotificationCompat.Builder(applicationContext, channelId)
-                .setContentTitle(getString(R.string.foreground_notification_title))
-                .setContentText(getString(R.string.foreground_notification_text))
-                .setStyle(
-                    NotificationCompat.BigTextStyle()
-                        .bigText(getString(R.string.foreground_notification_text))
-                )
-                .setOngoing(true)
-                .setCategory(Notification.CATEGORY_SERVICE)
-                .setPriority(NotificationManager.IMPORTANCE_HIGH)
-                .setSmallIcon(R.mipmap.ic_launcher)
-
-            return notification.build()
-        }
-    }
-
     override fun onInitializationFinished(error: BDError?) {
         if (error != null) {
             Toast.makeText(
@@ -126,11 +74,6 @@ class MainApplication : Application(), InitializationResultListener, GeoTriggeri
 
         Appboy.getInstance(this).changeUser("bluedot_sdk_and_brazer_sdk_integration_android")
         println("Bluedot Point SDK authenticated")
-        val notification = createNotification()
-
-        GeoTriggeringService.builder()
-            .notification(notification)
-            .start(applicationContext, this)
     }
 
     override fun onGeoTriggeringResult(error: BDError?) {

@@ -9,9 +9,9 @@
               tools:context="bluedot.com.au.bluedotbrazeintegrationapp.MainActivity">
 
     <Button
-            android:id="@+id/bStopSDK"
+            android:id="@+id/bStartStopSDK"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Stop SDK"/>
+            android:text="@string/start_sdk"/>
 
 </LinearLayout>
