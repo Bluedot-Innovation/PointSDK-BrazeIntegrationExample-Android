@@ -14,6 +14,8 @@ class BluedotGeoTriggerReceiver: GeoTriggeringEventReceiver() {
     private val customEventExit = "bluedot_exit"
 
     override fun onZoneEntryEvent(entryEvent: ZoneEntryEvent, context: Context) {
+        println("Zone ${entryEvent.zoneInfo.zoneName}, fence ${entryEvent.fenceInfo.name} entered at: ${Date()}")
+
         val eventProperties = AppboyProperties()
         eventProperties.addProperty("zone_id", entryEvent.zoneInfo.zoneId)
         eventProperties.addProperty("zone_name", entryEvent.zoneInfo.zoneName)
@@ -30,6 +32,8 @@ class BluedotGeoTriggerReceiver: GeoTriggeringEventReceiver() {
     }
 
     override fun onZoneExitEvent(exitEvent: ZoneExitEvent, context: Context) {
+        println("Zone ${exitEvent.zoneInfo.zoneName}, fence ${exitEvent.fenceInfo.name} exited at: ${Date()}")
+
         val eventProperties = AppboyProperties()
         eventProperties.addProperty("zone_id", exitEvent.zoneInfo.zoneId)
         eventProperties.addProperty("zone_name", exitEvent.zoneInfo.zoneName)
