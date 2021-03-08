@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
                     .notification(notification)
                     .start(applicationContext, app)
             }
-            finish()
         }
     }
 
