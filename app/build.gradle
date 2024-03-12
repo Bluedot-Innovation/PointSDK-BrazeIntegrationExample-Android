@@ -3,11 +3,11 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 33
     defaultConfig {
         applicationId "bluedot.com.au.bluedotbrazeintegrationapp"
-        minSdkVersion 21
-        targetSdkVersion 30
+        minSdkVersion 26
+        targetSdkVersion 33
         buildToolsVersion "29.0.2"
         versionCode 1
         versionName "1.0"
@@ -46,6 +46,7 @@ android {
 
     kotlinOptions {
         jvmTarget = "1.8"
+        freeCompilerArgs = ['-Xjvm-default=compatibility']
     }
 
     dexOptions {
@@ -59,7 +60,7 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:2.0.4'
     implementation 'com.android.support:multidex:1.0.3'
     implementation "com.appboy:android-sdk-ui:13.0.0"
-    implementation 'com.gitlab.bluedotio.android:point_sdk_android:15.3.1'
+    implementation 'com.gitlab.bluedotio.android:point_sdk_android:15.6.1'
     implementation "com.google.firebase:firebase-core:18.0.2"
     implementation 'com.google.firebase:firebase-messaging:21.0.1'
     implementation platform('com.google.firebase:firebase-bom:26.6.0')

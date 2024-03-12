@@ -17,7 +17,7 @@
             android:name=".MainApplication"
             android:theme="@style/AppTheme">
 
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -43,7 +43,7 @@
             </intent-filter>
         </receiver>
 
-        <service android:name="com.appboy.AppboyFirebaseMessagingService">
+        <service android:name="com.appboy.AppboyFirebaseMessagingService" android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
