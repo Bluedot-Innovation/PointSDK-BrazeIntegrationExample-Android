@@ -10,8 +10,8 @@ import au.com.bluedot.point.net.engine.BDError
 import au.com.bluedot.point.net.engine.GeoTriggeringStatusListener
 import au.com.bluedot.point.net.engine.InitializationResultListener
 import au.com.bluedot.point.net.engine.ServiceManager
-import com.appboy.Appboy
-import com.appboy.AppboyLifecycleCallbackListener
+import com.braze.Braze
+import com.braze.BrazeActivityLifecycleCallbackListener
 
 /*
  * @author Bluedot Innovation
@@ -30,7 +30,7 @@ class MainApplication : Application(), InitializationResultListener, GeoTriggeri
     override fun onCreate() {
         super.onCreate()
 
-        registerActivityLifecycleCallbacks(AppboyLifecycleCallbackListener(false, false))
+        registerActivityLifecycleCallbacks(BrazeActivityLifecycleCallbackListener())
 
         // initialize Bluedot point sdk
         initPointSDK()
@@ -72,7 +72,7 @@ class MainApplication : Application(), InitializationResultListener, GeoTriggeri
             return
         }
 
-        Appboy.getInstance(this).changeUser("bluedot_sdk_and_brazer_sdk_integration_android")
+        Braze.getInstance(this).changeUser("bluedot_sdk_and_brazer_sdk_integration_android")
         println("Bluedot Point SDK authenticated")
     }
 

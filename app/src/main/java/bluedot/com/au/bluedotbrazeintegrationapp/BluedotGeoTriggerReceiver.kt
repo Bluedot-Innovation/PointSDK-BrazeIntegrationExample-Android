@@ -5,8 +5,8 @@ import au.com.bluedot.point.net.engine.GeoTriggeringEventReceiver
 import au.com.bluedot.point.net.engine.ZoneEntryEvent
 import au.com.bluedot.point.net.engine.ZoneExitEvent
 import au.com.bluedot.point.net.engine.ZoneInfo
-import com.appboy.Appboy
-import com.appboy.models.outgoing.AppboyProperties
+import com.braze.Braze
+import com.braze.models.outgoing.BrazeProperties
 import java.util.*
 
 class BluedotGeoTriggerReceiver: GeoTriggeringEventReceiver() {
@@ -16,7 +16,7 @@ class BluedotGeoTriggerReceiver: GeoTriggeringEventReceiver() {
     override fun onZoneEntryEvent(entryEvent: ZoneEntryEvent, context: Context) {
         println("Zone ${entryEvent.zoneInfo.zoneName}, fence ${entryEvent.fenceInfo.name} entered at: ${Date()}")
 
-        val eventProperties = AppboyProperties()
+        val eventProperties = BrazeProperties()
         eventProperties.addProperty("zone_id", entryEvent.zoneInfo.zoneId)
         eventProperties.addProperty("zone_name", entryEvent.zoneInfo.zoneName)
         eventProperties.addProperty("latitude", entryEvent.locationInfo.latitude)
@@ -28,13 +28,13 @@ class BluedotGeoTriggerReceiver: GeoTriggeringEventReceiver() {
             eventProperties.addProperty(data.key, data.value)
         }
 
-        Appboy.getInstance(context).logCustomEvent(customEventEntry, eventProperties)
+        Braze.getInstance(context).logCustomEvent(customEventEntry, eventProperties)
     }
 
     override fun onZoneExitEvent(exitEvent: ZoneExitEvent, context: Context) {
         println("Zone ${exitEvent.zoneInfo.zoneName}, fence ${exitEvent.fenceInfo.name} exited at: ${Date()}")
 
-        val eventProperties = AppboyProperties()
+        val eventProperties = BrazeProperties()
         eventProperties.addProperty("zone_id", exitEvent.zoneInfo.zoneId)
         eventProperties.addProperty("zone_name", exitEvent.zoneInfo.zoneName)
         eventProperties.addProperty("dwellTime", exitEvent.dwellTime)
@@ -45,7 +45,7 @@ class BluedotGeoTriggerReceiver: GeoTriggeringEventReceiver() {
             eventProperties.addProperty(data.key, data.value)
         }
 
-        Appboy.getInstance(context).logCustomEvent(customEventExit, eventProperties)
+        Braze.getInstance(context).logCustomEvent(customEventExit, eventProperties)
     }
 
     override fun onZoneInfoUpdate(zones: List<ZoneInfo>, context: Context) {
