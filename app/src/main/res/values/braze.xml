@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="com_braze_api_key">d85d9a4d-2434-44ca-aa0d-259a6b8f7d72</string>
-    <string translatable="false" name="com_braze_custom_endpoint">sdk.iad-03.braze.com</string>
+    <string name="com_braze_api_key">YOUR-APP-IDENTIFIER-API-KEY</string>
+    <string translatable="false" name="com_braze_custom_endpoint">YOUR-BRAZE-ENDPOINT</string>
     <bool name="com_braze_enable_location_collection">true</bool>
     <bool name="com_braze_fallback_firebase_cloud_messaging_service_enabled">true</bool>
     <string name="com_braze_fallback_firebase_cloud_messaging_service_classpath">com.company.OurFirebaseMessagingService</string>
