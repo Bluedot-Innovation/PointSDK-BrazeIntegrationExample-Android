@@ -4,5 +4,5 @@
     <string translatable="false" name="com_braze_custom_endpoint">YOUR-BRAZE-ENDPOINT</string>
     <bool name="com_braze_enable_location_collection">true</bool>
     <bool name="com_braze_fallback_firebase_cloud_messaging_service_enabled">true</bool>
-    <string name="com_braze_fallback_firebase_cloud_messaging_service_classpath">com.company.OurFirebaseMessagingService</string>
+    <string name="com_braze_fallback_firebase_cloud_messaging_service_classpath">com.braze.push.BrazeFirebaseMessagingService</string>
 </resources>

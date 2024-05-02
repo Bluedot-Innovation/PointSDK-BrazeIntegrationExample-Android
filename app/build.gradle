@@ -3,16 +3,15 @@ apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 34
+    namespace "bluedot.com.au.bluedotbrazeintegrationapp"
+    compileSdk 34
     defaultConfig {
         applicationId "bluedot.com.au.bluedotbrazeintegrationapp"
         minSdkVersion 26
-        targetSdkVersion 33
-        buildToolsVersion "29.0.2"
+        targetSdk 34
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-//        multiDexEnabled true
     }
     signingConfigs {
         debug {
@@ -40,18 +39,10 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
-    kotlinOptions {
-        jvmTarget = "1.8"
-        freeCompilerArgs = ['-Xjvm-default=compatibility']
-    }
-
-    dexOptions {
-        preDexLibraries false
-    }
 }
 
 dependencies {
@@ -61,7 +52,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     implementation 'com.gitlab.bluedotio.android:point_sdk_android:16.0.0'
     implementation "com.google.firebase:firebase-core:18.0.2"
-    implementation 'com.google.firebase:firebase-messaging:21.c0.1'
+    implementation 'com.google.firebase:firebase-messaging:21.0.1'
     implementation platform('com.google.firebase:firebase-bom:26.6.0')
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.braze:android-sdk-ui:30.2.0'
@@ -71,5 +62,3 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
-
-//apply plugin: 'com.google.gms.google-services'

@@ -80,7 +80,7 @@ class MainApplication : Application(), InitializationResultListener, GeoTriggeri
         if (error != null) {
             Toast.makeText(
                 applicationContext,
-                "Bluedot Point SDK start GeoTrigerring error: ${error.reason}",
+                "Bluedot Point SDK start GeoTriggering error: ${error.reason}",
                 Toast.LENGTH_LONG
             ).show()
         }
